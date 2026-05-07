@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
 import { theme } from '../theme/theme';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
@@ -37,13 +37,19 @@ export default function HomeScreen() {
         
         {/* Hero Section */}
         <View style={styles.heroContainer}>
-          <View style={styles.heroPlaceholder}>
-            <Text style={styles.heroSubtitle}>NEW COLLECTION</Text>
-            <Text style={styles.heroTitle}>Kanjivaram{'\n'}Silks</Text>
-            <TouchableOpacity style={styles.ctaButton}>
-              <Text style={styles.ctaText}>SHOP NOW</Text>
-            </TouchableOpacity>
-          </View>
+          <ImageBackground 
+            source={require('../../assets/hero-saree.png')} 
+            style={styles.heroImage}
+            imageStyle={{ borderRadius: 16 }}
+          >
+            <View style={styles.heroOverlay}>
+              <Text style={styles.heroSubtitle}>NEW COLLECTION</Text>
+              <Text style={styles.heroTitle}>Kanjivaram{'\n'}Silks</Text>
+              <TouchableOpacity style={styles.ctaButton} activeOpacity={0.8}>
+                <Text style={styles.ctaText}>SHOP NOW</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
         </View>
 
         {/* Categories Section */}
@@ -97,14 +103,19 @@ const styles = StyleSheet.create({
   heroContainer: {
     padding: theme.spacing.md,
   },
-  heroPlaceholder: {
-    height: 400,
-    backgroundColor: theme.colors.forest,
+  heroImage: {
+    height: 480,
+    width: '100%',
     borderRadius: 16,
+    overflow: 'hidden',
+  },
+  heroOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(14, 34, 25, 0.45)', // Forest green tint
     justifyContent: 'flex-end',
     alignItems: 'center',
     padding: theme.spacing.xl,
-    overflow: 'hidden',
+    paddingBottom: 40,
   },
   heroSubtitle: {
     fontFamily: 'DMSans_500Medium',
@@ -116,22 +127,22 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontFamily: 'PlayfairDisplay_700Bold',
     color: theme.colors.cream,
-    fontSize: 42,
+    fontSize: 44,
     textAlign: 'center',
-    lineHeight: 48,
-    marginBottom: theme.spacing.lg,
+    lineHeight: 52,
+    marginBottom: theme.spacing.xl,
   },
   ctaButton: {
     backgroundColor: theme.colors.gold,
-    paddingHorizontal: theme.spacing.xl,
+    paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 30,
   },
   ctaText: {
     fontFamily: 'DMSans_700Bold',
-    color: theme.colors.white,
-    letterSpacing: 1,
-    fontSize: 14,
+    color: theme.colors.forest,
+    letterSpacing: 1.5,
+    fontSize: 13,
   },
   section: {
     paddingTop: theme.spacing.lg,

@@ -1,16 +1,66 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { theme } from '../theme/theme';
+import ProductCard from '../components/ProductCard';
+import { supabase } from '../lib/supabase';
+import { Filter } from 'lucide-react-native';
 
 export default function CategoriesScreen() {
+  const insets = useSafeAreaInsets();
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Collections</Text>
-        <Text style={styles.subtitle}>Explore our curated ethnic wear</Text>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      <View style={styles.header}>
+        <Text style={styles.title}>The Collection</Text>
+        <TouchableOpacity style={styles.filterButton}>
+          <Filter color={theme.colors.forest} size={20} />
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+
+      {loading ? (
+        <View style={styles.center}>
+          <ActivityIndicator size="large" color={theme.colors.gold} />
+        </View>
+      ) : (
+        <FlatList
+          data={products}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContent}
+          columnWrapperStyle={styles.row}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <ProductCard 
+              product={item} 
+              onPress={() => console.log('Product:', item.id)} 
+            />
+          )}
+        />
+      )}
+    </View>
   );
 }
 
@@ -19,20 +69,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.cream,
   },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border,
   },
   title: {
     fontFamily: 'PlayfairDisplay_700Bold',
     fontSize: 24,
-    color: '#1A3C2E',
+    color: theme.colors.forest,
   },
-  subtitle: {
-    fontFamily: 'DMSans_400Regular',
-    fontSize: 14,
-    color: theme.colors.textMuted,
-    marginTop: theme.spacing.sm,
+  filterButton: {
+    padding: 8,
+    backgroundColor: theme.colors.white,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listContent: {
+    padding: theme.spacing.md,
+    paddingBottom: 100, // For bottom tab bar space
+  },
+  row: {
+    justifyContent: 'space-between',
   }
 });
