@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronLeft, ShoppingBag } from 'lucide-react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { theme } from '../theme/theme';
+import { useCartStore } from '../store/useCartStore';
 
 const { width } = Dimensions.get('window');
 
@@ -12,6 +13,7 @@ export default function ProductScreen() {
   const navigation = useNavigation();
   const route = useRoute<any>();
   const product = route.params?.product;
+  const addToCart = useCartStore((state) => state.addToCart);
 
   if (!product) return null;
 
@@ -75,7 +77,14 @@ export default function ProductScreen() {
 
       {/* Bottom Action Bar */}
       <View style={[styles.actionBar, { paddingBottom: insets.bottom || 16 }]}>
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity 
+          style={styles.addToCartButton}
+          activeOpacity={0.8}
+          onPress={() => {
+            addToCart(product);
+            alert('Added to Bag!');
+          }}
+        >
           <ShoppingBag color={theme.colors.cream} size={20} />
           <Text style={styles.addToCartText}>ADD TO BAG</Text>
         </TouchableOpacity>

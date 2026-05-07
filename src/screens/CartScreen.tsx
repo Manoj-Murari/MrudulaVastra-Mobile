@@ -4,23 +4,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChevronLeft, Trash2 } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
+import { useCartStore } from '../store/useCartStore';
 
 export default function CartScreen() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  
+  const cartItems = useCartStore((state) => state.items);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const subtotal = useCartStore((state) => state.getCartTotal());
 
-  // Mock Cart Items
-  const cartItems = [
-    {
-      id: '1',
-      name: 'Emerald Kanjivaram Silk Saree',
-      price: 24999,
-      image: null,
-      quantity: 1,
-    }
-  ];
-
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subtotal * 0.05; // 5% GST
   const total = subtotal + tax;
 
@@ -57,11 +51,15 @@ export default function CartScreen() {
                   
                   <View style={styles.quantityRow}>
                     <View style={styles.quantityControl}>
-                      <Text style={styles.qtyBtn}>-</Text>
+                      <TouchableOpacity onPress={() => updateQuantity(item.id, -1)}>
+                        <Text style={styles.qtyBtn}>-</Text>
+                      </TouchableOpacity>
                       <Text style={styles.qtyText}>{item.quantity}</Text>
-                      <Text style={styles.qtyBtn}>+</Text>
+                      <TouchableOpacity onPress={() => updateQuantity(item.id, 1)}>
+                        <Text style={styles.qtyBtn}>+</Text>
+                      </TouchableOpacity>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => removeFromCart(item.id)}>
                       <Trash2 color={theme.colors.textMuted} size={18} />
                     </TouchableOpacity>
                   </View>

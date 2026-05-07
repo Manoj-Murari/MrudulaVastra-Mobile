@@ -4,10 +4,12 @@ import { ShoppingBag, Menu, Search } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
+import { useCartStore } from '../store/useCartStore';
 
 export default function Header() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const cartCount = useCartStore((state) => state.getCartCount());
 
   return (
     <View style={[styles.container, { paddingTop: Math.max(insets.top, Platform.OS === 'web' ? 16 : 0) }]}>
@@ -33,9 +35,11 @@ export default function Header() {
             onPress={() => (navigation as any).navigate('Cart')}
           >
             <ShoppingBag color={theme.colors.forest} size={20} strokeWidth={1.5} />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>1</Text>
-            </View>
+            {cartCount > 0 && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{cartCount}</Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
       </View>
