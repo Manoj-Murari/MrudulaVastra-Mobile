@@ -1,9 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { theme } from '../theme/theme';
-
-const { width } = Dimensions.get('window');
-const CARD_WIDTH = (width - theme.spacing.md * 2 - theme.spacing.md) / 2;
 
 interface ProductProps {
   product: {
@@ -55,7 +52,7 @@ export default function ProductCard({ product, onPress }: ProductProps) {
 
 const styles = StyleSheet.create({
   container: {
-    width: CARD_WIDTH,
+    width: '48%',
     marginBottom: theme.spacing.lg,
     backgroundColor: theme.colors.white,
     borderRadius: 8,
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   imageContainer: {
-    height: CARD_WIDTH * 1.3,
+    aspectRatio: 3/4,
     backgroundColor: theme.colors.cream,
     position: 'relative',
   },
