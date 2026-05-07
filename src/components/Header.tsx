@@ -38,31 +38,32 @@ export default function Header() {
             <Menu color={theme.colors.forest} size={22} strokeWidth={1.5} />
           </TouchableOpacity>
         
-        {/* Logo */}
-        <View style={styles.logoContainer}>
-          <Text style={styles.title}>MRUDULA VASTRA</Text>
-          <Text style={styles.subtitle}>ELEGANCE WOVEN IN EVERY THREAD</Text>
-        </View>
+          {/* Logo */}
+          <View style={styles.logoContainer}>
+            <Text style={styles.title}>MRUDULA VASTRA</Text>
+            <Text style={styles.subtitle}>ELEGANCE WOVEN IN EVERY THREAD</Text>
+          </View>
 
-        {/* Right Icons */}
-        <View style={styles.rightIcons}>
-          <TouchableOpacity 
-            style={styles.iconButton}
-            onPress={() => (navigation as any).navigate('Search')}
-          >
-            <Search color={theme.colors.forest} size={20} strokeWidth={1.5} />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.iconButton}
-            onPress={() => (navigation as any).navigate('Cart')}
-          >
-            <ShoppingBag color={theme.colors.forest} size={20} strokeWidth={1.5} />
-            {cartCount > 0 && (
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>{cartCount}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+          {/* Right Icons */}
+          <View style={styles.rightIcons}>
+            <TouchableOpacity 
+              style={styles.iconButton}
+              onPress={() => (navigation as any).navigate('Search')}
+            >
+              <Search color={theme.colors.forest} size={20} strokeWidth={1.5} />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.iconButton}
+              onPress={() => (navigation as any).navigate('Cart')}
+            >
+              <ShoppingBag color={theme.colors.forest} size={20} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{cartCount}</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
