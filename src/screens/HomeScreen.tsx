@@ -83,7 +83,7 @@ export default function HomeScreen() {
                 <ProductCard 
                   key={product.id} 
                   product={product} 
-                  onPress={() => navigation.navigate('Product' as never, { product } as never)} 
+                  onPress={() => (navigation as any).navigate('Product', { product })} 
                 />
               ))}
             </View>

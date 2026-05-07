@@ -30,7 +30,7 @@ export default function Header() {
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.iconButton}
-            onPress={() => navigation.navigate('Cart' as never)}
+            onPress={() => (navigation as any).navigate('Cart')}
           >
             <ShoppingBag color={theme.colors.forest} size={20} strokeWidth={1.5} />
             <View style={styles.badge}>

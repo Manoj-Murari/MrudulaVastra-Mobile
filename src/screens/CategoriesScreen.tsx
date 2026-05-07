@@ -57,7 +57,7 @@ export default function CategoriesScreen() {
           renderItem={({ item }) => (
             <ProductCard 
               product={item} 
-              onPress={() => navigation.navigate('Product' as never, { product: item } as never)} 
+              onPress={() => (navigation as any).navigate('Product', { product: item })} 
             />
           )}
         />
