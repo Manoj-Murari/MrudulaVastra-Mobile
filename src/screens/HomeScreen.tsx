@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
 import { supabase } from '../lib/supabase';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const [trendingProducts, setTrendingProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -81,7 +83,7 @@ export default function HomeScreen() {
                 <ProductCard 
                   key={product.id} 
                   product={product} 
-                  onPress={() => console.log('Navigate to product', product.id)} 
+                  onPress={() => navigation.navigate('Product' as never, { product } as never)} 
                 />
               ))}
             </View>

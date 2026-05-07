@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
 import ProductCard from '../components/ProductCard';
 import { supabase } from '../lib/supabase';
@@ -8,6 +9,7 @@ import { Filter } from 'lucide-react-native';
 
 export default function CategoriesScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +57,7 @@ export default function CategoriesScreen() {
           renderItem={({ item }) => (
             <ProductCard 
               product={item} 
-              onPress={() => console.log('Product:', item.id)} 
+              onPress={() => navigation.navigate('Product' as never, { product: item } as never)} 
             />
           )}
         />

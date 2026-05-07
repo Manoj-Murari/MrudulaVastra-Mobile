@@ -2,10 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { ShoppingBag, Menu, Search } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme/theme';
 
 export default function Header() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   return (
     <View style={[styles.container, { paddingTop: Math.max(insets.top, Platform.OS === 'web' ? 16 : 0) }]}>
@@ -26,10 +28,13 @@ export default function Header() {
           <TouchableOpacity style={styles.iconButton}>
             <Search color={theme.colors.forest} size={20} strokeWidth={1.5} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity 
+            style={styles.iconButton}
+            onPress={() => navigation.navigate('Cart' as never)}
+          >
             <ShoppingBag color={theme.colors.forest} size={20} strokeWidth={1.5} />
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>2</Text>
+              <Text style={styles.badgeText}>1</Text>
             </View>
           </TouchableOpacity>
         </View>

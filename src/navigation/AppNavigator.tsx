@@ -1,14 +1,18 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home, Search, User } from 'lucide-react-native';
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProductScreen from '../screens/ProductScreen';
+import CartScreen from '../screens/CartScreen';
 import { theme } from '../theme/theme';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function AppNavigator() {
+function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -23,40 +27,52 @@ export default function AppNavigator() {
           height: 60,
         },
         tabBarLabelStyle: {
-          fontFamily: 'System', // Will use custom font later
+          fontFamily: 'DMSans_700Bold',
           fontSize: 10,
-          fontWeight: '600',
           marginTop: 4,
         }
       }}
     >
       <Tab.Screen 
-        name="Home" 
+        name="HomeTab" 
         component={HomeScreen} 
         options={{
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Home color={color} size={20} strokeWidth={2} />
           ),
         }}
       />
       <Tab.Screen 
-        name="Shop" 
+        name="ShopTab" 
         component={CategoriesScreen} 
         options={{
+          tabBarLabel: 'Shop',
           tabBarIcon: ({ color, size }) => (
             <Search color={color} size={20} strokeWidth={2} />
           ),
         }}
       />
       <Tab.Screen 
-        name="Profile" 
+        name="ProfileTab" 
         component={ProfileScreen} 
         options={{
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <User color={color} size={20} strokeWidth={2} />
           ),
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+export default function AppNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Tabs" component={TabNavigator} />
+      <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
+    </Stack.Navigator>
   );
 }
