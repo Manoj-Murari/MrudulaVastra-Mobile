@@ -1,22 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
 import { theme } from '../theme/theme';
+import Header from '../components/Header';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.brandTitle}>MRUDULA VASTRA</Text>
-          <Text style={styles.brandSubtitle}>ELEGANCE WOVEN IN EVERY THREAD</Text>
-        </View>
-
+    <View style={styles.container}>
+      <Header />
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        
         {/* Hero Section */}
         <View style={styles.heroContainer}>
           <View style={styles.heroPlaceholder}>
-            <Text style={styles.heroText}>NEW ARRIVALS</Text>
+            <Text style={styles.heroSubtitle}>NEW COLLECTION</Text>
+            <Text style={styles.heroTitle}>Kanjivaram{'\n'}Silks</Text>
             <TouchableOpacity style={styles.ctaButton}>
               <Text style={styles.ctaText}>SHOP NOW</Text>
             </TouchableOpacity>
@@ -27,16 +24,16 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Shop by Category</Text>
           <View style={styles.grid}>
-            {['Sarees', 'Dress Materials', 'Kids Wear'].map((item) => (
-              <View key={item} style={styles.gridItem}>
+            {['Sarees', 'Dress Materials', 'Kids Wear', 'Lehengas'].map((item) => (
+              <TouchableOpacity key={item} style={styles.gridItem}>
                 <View style={styles.gridImagePlaceholder} />
                 <Text style={styles.gridText}>{item}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -48,57 +45,54 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: theme.spacing.xxl,
   },
-  header: {
-    padding: theme.spacing.lg,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
-  },
-  brandTitle: {
-    ...theme.typography.header,
-    marginBottom: theme.spacing.xs,
-  },
-  brandSubtitle: {
-    ...theme.typography.caption,
-    color: theme.colors.gold,
-    letterSpacing: 2,
-  },
   heroContainer: {
     padding: theme.spacing.md,
   },
   heroPlaceholder: {
-    height: 400,
+    height: 450,
     backgroundColor: theme.colors.forest,
-    borderRadius: 12,
-    justifyContent: 'center',
+    borderRadius: 16,
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    padding: theme.spacing.lg,
+    padding: theme.spacing.xl,
+    overflow: 'hidden',
   },
-  heroText: {
-    color: theme.colors.cream,
-    fontSize: 28,
-    fontWeight: 'bold',
+  heroSubtitle: {
+    fontFamily: 'DMSans_500Medium',
+    color: theme.colors.gold,
     letterSpacing: 2,
+    fontSize: 12,
+    marginBottom: theme.spacing.sm,
+  },
+  heroTitle: {
+    fontFamily: 'PlayfairDisplay_700Bold',
+    color: theme.colors.cream,
+    fontSize: 42,
+    textAlign: 'center',
+    lineHeight: 48,
     marginBottom: theme.spacing.lg,
   },
   ctaButton: {
     backgroundColor: theme.colors.gold,
     paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.md,
+    paddingVertical: 14,
     borderRadius: 30,
   },
   ctaText: {
+    fontFamily: 'DMSans_700Bold',
     color: theme.colors.white,
-    fontWeight: 'bold',
     letterSpacing: 1,
+    fontSize: 14,
   },
   section: {
     padding: theme.spacing.md,
   },
   sectionTitle: {
-    ...theme.typography.subhead,
-    marginBottom: theme.spacing.md,
+    fontFamily: 'PlayfairDisplay_700Bold',
+    fontSize: 24,
     color: theme.colors.forest,
+    marginBottom: theme.spacing.lg,
+    textAlign: 'center',
   },
   grid: {
     flexDirection: 'row',
@@ -107,17 +101,18 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     width: '48%',
-    marginBottom: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
   },
   gridImagePlaceholder: {
-    height: 200,
+    height: 220,
     backgroundColor: '#E5E5E5',
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: theme.spacing.sm,
   },
   gridText: {
-    ...theme.typography.body,
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 14,
+    color: theme.colors.textPrimary,
     textAlign: 'center',
-    fontWeight: '500',
   }
 });

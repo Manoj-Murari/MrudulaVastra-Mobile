@@ -25,10 +25,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...theme.typography.header,
+    fontFamily: 'PlayfairDisplay_700Bold',
+    fontSize: 24,
+    color: '#1A3C2E',
   },
   subtitle: {
-    ...theme.typography.body,
+    fontFamily: 'DMSans_400Regular',
+    fontSize: 14,
     color: theme.colors.textMuted,
     marginTop: theme.spacing.sm,
   }

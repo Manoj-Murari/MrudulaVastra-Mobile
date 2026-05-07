@@ -18,24 +18,25 @@ export const theme = {
   },
   typography: {
     header: {
+      fontFamily: 'PlayfairDisplay_700Bold',
       fontSize: 24,
-      fontWeight: '700',
-      letterSpacing: 1.2,
       color: '#1A3C2E',
     },
     subhead: {
+      fontFamily: 'DMSans_500Medium',
       fontSize: 16,
-      fontWeight: '500',
       letterSpacing: 0.5,
       color: '#B8963E',
     },
     body: {
+      fontFamily: 'DMSans_400Regular',
       fontSize: 14,
       color: '#2D2D2D',
     },
     caption: {
+      fontFamily: 'DMSans_400Regular',
       fontSize: 12,
       color: '#6B7280',
     }
-  }
+  } as const
 };
