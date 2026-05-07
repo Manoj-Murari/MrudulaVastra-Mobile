@@ -8,32 +8,40 @@ const CARD_WIDTH = (width - theme.spacing.md * 2 - theme.spacing.md) / 2;
 interface ProductProps {
   product: {
     id: string;
-    title: string;
+    name: string;
     price: number;
     original_price?: number | null;
-    images: string[];
+    image: string | null;
     category: string;
+    tag?: string | null;
   };
   onPress: () => void;
 }
 
 export default function ProductCard({ product, onPress }: ProductProps) {
-  const imageUrl = product.images?.[0] || 'https://via.placeholder.com/200';
+  const imageUrl = product.image;
   const isDiscounted = product.original_price && product.original_price > product.price;
+  const activeBadge = product.tag || (isDiscounted ? 'SALE' : null);
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.8}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
-        {isDiscounted && (
+        {imageUrl ? (
+          <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
+        ) : (
+          <View style={styles.fallbackContainer}>
+             <Text style={styles.fallbackText}>MV</Text>
+          </View>
+        )}
+        {activeBadge && (
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>SALE</Text>
+            <Text style={styles.badgeText}>{activeBadge}</Text>
           </View>
         )}
       </View>
       <View style={styles.details}>
         <Text style={styles.category}>{product.category?.toUpperCase()}</Text>
-        <Text style={styles.title} numberOfLines={2}>{product.title}</Text>
+        <Text style={styles.title} numberOfLines={2}>{product.name}</Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>₹{product.price}</Text>
           {isDiscounted && (
@@ -67,20 +75,33 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  fallbackContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EAE6DF',
+  },
+  fallbackText: {
+    fontFamily: 'PlayfairDisplay_700Bold',
+    fontSize: 24,
+    color: theme.colors.forest,
+    opacity: 0.3,
+    letterSpacing: 2,
+  },
   badge: {
     position: 'absolute',
     top: 8,
     left: 8,
     backgroundColor: theme.colors.gold,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 2,
   },
   badgeText: {
     fontFamily: 'DMSans_700Bold',
-    fontSize: 10,
+    fontSize: 9,
     color: theme.colors.white,
-    letterSpacing: 0.5,
+    letterSpacing: 1,
   },
   details: {
     padding: theme.spacing.sm,
