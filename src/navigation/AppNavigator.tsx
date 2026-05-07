@@ -1,12 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home, Search, User } from 'lucide-react-native';
+import { Home, Search as SearchIcon, User } from 'lucide-react-native';
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProductScreen from '../screens/ProductScreen';
 import CartScreen from '../screens/CartScreen';
+import SearchScreen from '../screens/SearchScreen';
 import { theme } from '../theme/theme';
 
 const Tab = createBottomTabNavigator();
@@ -49,7 +50,7 @@ function TabNavigator() {
         options={{
           tabBarLabel: 'Shop',
           tabBarIcon: ({ color, size }) => (
-            <Search color={color} size={20} strokeWidth={2} />
+            <SearchIcon color={color} size={20} strokeWidth={2} />
           ),
         }}
       />
@@ -73,6 +74,7 @@ export default function AppNavigator() {
       <Stack.Screen name="Tabs" component={TabNavigator} />
       <Stack.Screen name="Product" component={ProductScreen} />
       <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen name="Search" component={SearchScreen} />
     </Stack.Navigator>
   );
 }

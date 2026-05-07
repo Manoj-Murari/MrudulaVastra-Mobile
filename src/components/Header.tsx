@@ -27,7 +27,10 @@ export default function Header() {
 
         {/* Right Icons */}
         <View style={styles.rightIcons}>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity 
+            style={styles.iconButton}
+            onPress={() => (navigation as any).navigate('Search')}
+          >
             <Search color={theme.colors.forest} size={20} strokeWidth={1.5} />
           </TouchableOpacity>
           <TouchableOpacity 
