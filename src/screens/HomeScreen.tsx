@@ -1,9 +1,35 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { theme } from '../theme/theme';
 import Header from '../components/Header';
+import ProductCard from '../components/ProductCard';
+import { supabase } from '../lib/supabase';
 
 export default function HomeScreen() {
+  const [trendingProducts, setTrendingProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTrendingProducts();
+  }, []);
+
+  const fetchTrendingProducts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('is_trending', true)
+        .limit(4);
+
+      if (error) throw error;
+      setTrendingProducts(data || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header />
@@ -20,17 +46,40 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Categories Grid (Mock) */}
+        {/* Categories Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Shop by Category</Text>
-          <View style={styles.grid}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryScroll}>
             {['Sarees', 'Dress Materials', 'Kids Wear', 'Lehengas'].map((item) => (
-              <TouchableOpacity key={item} style={styles.gridItem}>
-                <View style={styles.gridImagePlaceholder} />
-                <Text style={styles.gridText}>{item}</Text>
+              <TouchableOpacity key={item} style={styles.categoryPill}>
+                <Text style={styles.categoryText}>{item}</Text>
               </TouchableOpacity>
             ))}
+          </ScrollView>
+        </View>
+
+        {/* Trending Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Trending Now</Text>
+            <TouchableOpacity>
+              <Text style={styles.viewAll}>View All</Text>
+            </TouchableOpacity>
           </View>
+
+          {loading ? (
+            <ActivityIndicator size="large" color={theme.colors.gold} style={{ marginTop: 20 }} />
+          ) : (
+            <View style={styles.productGrid}>
+              {trendingProducts.map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  onPress={() => console.log('Navigate to product', product.id)} 
+                />
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -49,7 +98,7 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
   },
   heroPlaceholder: {
-    height: 450,
+    height: 400,
     backgroundColor: theme.colors.forest,
     borderRadius: 16,
     justifyContent: 'flex-end',
@@ -85,34 +134,46 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   section: {
-    padding: theme.spacing.md,
+    paddingTop: theme.spacing.lg,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    paddingHorizontal: theme.spacing.md,
+    marginBottom: theme.spacing.md,
   },
   sectionTitle: {
     fontFamily: 'PlayfairDisplay_700Bold',
-    fontSize: 24,
+    fontSize: 22,
     color: theme.colors.forest,
-    marginBottom: theme.spacing.lg,
-    textAlign: 'center',
   },
-  grid: {
+  viewAll: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 12,
+    color: theme.colors.gold,
+  },
+  categoryScroll: {
+    paddingHorizontal: theme.spacing.md,
+    gap: 12,
+  },
+  categoryPill: {
+    backgroundColor: theme.colors.white,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+  categoryText: {
+    fontFamily: 'DMSans_500Medium',
+    fontSize: 14,
+    color: theme.colors.forest,
+  },
+  productGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  gridItem: {
-    width: '48%',
-    marginBottom: theme.spacing.lg,
-  },
-  gridImagePlaceholder: {
-    height: 220,
-    backgroundColor: '#E5E5E5',
-    borderRadius: 12,
-    marginBottom: theme.spacing.sm,
-  },
-  gridText: {
-    fontFamily: 'DMSans_500Medium',
-    fontSize: 14,
-    color: theme.colors.textPrimary,
-    textAlign: 'center',
+    paddingHorizontal: theme.spacing.md,
   }
 });
