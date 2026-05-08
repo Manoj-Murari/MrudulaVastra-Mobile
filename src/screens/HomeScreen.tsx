@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, ImageBackground, Image, Dimensions, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Star, Instagram, ArrowRight } from 'lucide-react-native';
+import { Star, Camera, ArrowRight } from 'lucide-react-native';
 import { theme } from '../theme/theme';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
@@ -173,7 +173,7 @@ export default function HomeScreen() {
         <View style={styles.instagramSection}>
           <View style={styles.sectionHeaderCenter}>
             <View style={styles.instaEyebrowRow}>
-              <Instagram color={theme.colors.gold} size={14} />
+              <Camera color={theme.colors.gold} size={14} />
               <Text style={styles.sectionEyebrow}>FOLLOW OUR JOURNEY</Text>
             </View>
             <Text style={styles.sectionTitleCenter}>@mrudulavastra</Text>
@@ -184,7 +184,7 @@ export default function HomeScreen() {
             activeOpacity={0.8}
             onPress={() => Linking.openURL('https://www.instagram.com/mrudulavastra/')}
           >
-            <Instagram color={theme.colors.cream} size={16} />
+            <Camera color={theme.colors.cream} size={16} />
             <Text style={styles.instagramButtonText}>FOLLOW ON INSTAGRAM</Text>
           </TouchableOpacity>
         </View>
